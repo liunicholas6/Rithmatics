@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "ro8MZfC0lgS7i40fuKVoZ4jCJqIva1WtT8s2dMq7zbwUuey35UYlTo87l4JirtXF3OdI9pqiDS/6V15GYUeO3g==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\purpl\\Desktop\\Rithmatics\\Rithmatics\\Rithmatics.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\purpl\\.nuget\\packages\\fsharp.core\\6.0.5\\fsharp.core.6.0.5.nupkg.sha512",
+    "C:\\Users\\purpl\\.nuget\\packages\\mathnet.numerics\\5.0.0\\mathnet.numerics.5.0.0.nupkg.sha512",
+    "C:\\Users\\purpl\\.nuget\\packages\\mathnet.numerics.fsharp\\5.0.0\\mathnet.numerics.fsharp.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

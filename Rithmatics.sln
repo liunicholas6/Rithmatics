@@ -1,0 +1,27 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rithmatics", "Rithmatics.csproj", "{0F7125B3-33FE-4B5F-9EF1-083ED0506E04}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "RithmaticsFs", "RithmaticsFs\RithmaticsFs.fsproj", "{0E794C19-5BC5-499F-86CD-1E08C35913A8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+	Debug|Any CPU = Debug|Any CPU
+	ExportDebug|Any CPU = ExportDebug|Any CPU
+	ExportRelease|Any CPU = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0F7125B3-33FE-4B5F-9EF1-083ED0506E04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F7125B3-33FE-4B5F-9EF1-083ED0506E04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F7125B3-33FE-4B5F-9EF1-083ED0506E04}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{0F7125B3-33FE-4B5F-9EF1-083ED0506E04}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{0F7125B3-33FE-4B5F-9EF1-083ED0506E04}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{0F7125B3-33FE-4B5F-9EF1-083ED0506E04}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{0E794C19-5BC5-499F-86CD-1E08C35913A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E794C19-5BC5-499F-86CD-1E08C35913A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E794C19-5BC5-499F-86CD-1E08C35913A8}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E794C19-5BC5-499F-86CD-1E08C35913A8}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{0E794C19-5BC5-499F-86CD-1E08C35913A8}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E794C19-5BC5-499F-86CD-1E08C35913A8}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+EndGlobal
