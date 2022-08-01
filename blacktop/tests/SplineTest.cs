@@ -2,10 +2,11 @@ using Godot;
 using System;
 using RithmaticsFs;
 
-public class SplineTest : Node2D
+public class SplineTest : Line2D
 {
     private MouseManager _mouseManager;
-    private readonly CatmullRom.splineCurve _curve = new CatmullRom.splineCurve();
+    private readonly CatmullRom.splineCurve _curve = new();
+    
     public override void _Ready()
     {
         _mouseManager = new MouseManager();
@@ -14,16 +15,15 @@ public class SplineTest : Node2D
 
     public override void _Process(float delta)
     {
-        if (_mouseManager.GetMouseState() == MouseManager.MouseState.Click)
-        {
-            _curve.AddPoint(_mouseManager.MousePosition);
-            Update();
-        }
+        if (_mouseManager.GetMouseState() != MouseManager.MouseState.Click) return;
+        _curve.AddPoint(_mouseManager.MousePosition);
+        
     }
 
     public override void _Draw()
     {
-        foreach (Vector2 point in _curve.GetPoints())
+        base._Draw();
+        foreach (var point in _curve.GetPoints())
         {
             DrawCircle(point, 2, Colors.White);
         }

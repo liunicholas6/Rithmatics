@@ -1,13 +1,13 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using RithmaticsFs;
 
 public class InputManager : Node2D
 {
     private MouseManager _mouseManger;
     private Line2D _line;
-    private Vector2 _prevPt;
-    private const float Res = 5;
+    private List<float> _weights = new();
     private readonly CatmullRom.splineCurve _curve = new();
     
     public override void _Ready()
@@ -25,35 +25,25 @@ public class InputManager : Node2D
                 point = _mouseManger.MousePosition;
                 _curve.AddPoint(point);
                 _line.AddPoint(point);
-                _prevPt = point;
                 break;
             case MouseManager.MouseState.Hold:
                 point = _mouseManger.MousePosition;
-                if ((point - _prevPt).Length() > Res)
+                _curve.AddPoint(point);
+                _line.Points = _curve.GetPoints();
+                _weights.Add(_mouseManger.MousePressure);
+                Curve widthCurve = new Curve();
+                for (int i = 0; i < _weights.Count; i++)
                 {
-                    GD.Print("Added");
-                    _curve.AddPoint(point);
-                    _prevPt = point;
-                    _line.Points = _curve.GetPoints();
+                    widthCurve.AddPoint(new Vector2((float) i / _weights.Count, _weights[i]));
                 }
+                _line.WidthCurve = widthCurve;
                 break;
             case MouseManager.MouseState.Release:
-                GD.Print("release");
                 point = _mouseManger.MousePosition;
                 _curve.AddPoint(point);
                 _curve.AddPoint(point);
                 _line.Points = _curve.GetPoints();
                 break;
-        }
-
-        Update();
-    }
-
-    public override void _Draw()
-    {
-        foreach (Vector2 pt in _curve.GetPoints())
-        {
-            DrawCircle(pt, 2, Colors.Green);
         }
     }
 }

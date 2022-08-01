@@ -3,6 +3,12 @@
 open MathNet.Numerics.LinearAlgebra
 open Godot
 
+let segLength (points : Vector2 seq) =
+    points
+    |> Seq.pairwise
+    |> Seq.map(fun (a, b) -> (a - b).Length())
+    |> Seq.sum
+
 let splineFn =
     let m = matrix [[ 0f;  2f;  0f;  0f]
                     [-1f;  0f;  1f;  0f]
@@ -31,46 +37,49 @@ let splinePts (res: float32) (ctrl: Vector2 array) =
     Seq.unfold(fun t -> if t > 1f then None else Some(t, t + tSpace)) 0f
     |> Seq.map(splineFn ctrl)
 
-type curveState =
-        | Empty
-        | Point
-        | Line
-        | Spline
-
 type splineCurve() =
     let res = 10f
-    let ctrl = Array.zeroCreate 4
-    let mutable (interpolatedPoints : ResizeArray<Vector2>) = new ResizeArray<Vector2>()
-    let mutable (endCap : Vector2 seq) = Seq.empty
-    let mutable curveState = Empty
-
+    let controlPoints = ResizeArray<Vector2>()
+    let interPoints = ResizeArray<Vector2>()
+    let segLengths = ResizeArray<float32>()
+    let mutable endLength = 0f
+    let mutable endCap = Seq.empty
+    member this.ControlPoints = controlPoints
     member this.AddPoint pt =
-        match curveState with
-        | Empty ->
-            ctrl[0] <- pt
-            ctrl[1] <- pt
-            curveState <- Point
-        | Point ->
-            ctrl[2] <- pt
-            curveState <- Line
-        | _ ->
-            ctrl[3] <- pt
-            interpolatedPoints.AddRange(splinePts res ctrl)
+        controlPoints.Add(pt)
+        if (controlPoints.Count > 2) then
+            let ctrl =
+                if controlPoints.Count = 3 then
+                    [|0; 0; 1; 2|] |> Array.map(fun i -> controlPoints[i])
+                else
+                    [|-4 .. -1|] |> Array.map(fun i -> controlPoints[controlPoints.Count + i])
+            let splinePoints = splinePts res ctrl |> Seq.cache
+            segLengths.Add(segLength splinePoints)
+            interPoints.AddRange(splinePoints)
             for i in 0 .. 2 do
                 ctrl[i] <- ctrl[i + 1]
             endCap <- splinePts res ctrl |> Seq.cache
-            curveState <- Spline
-
     member this.GetPoints() =
-        match curveState with
-        | Empty -> Array.empty
-        | Point -> [|ctrl[0]|]
-        | Line ->  [|ctrl[1]; ctrl[2]|]
-        | Spline ->
+        if controlPoints.Count < 3 then
+            controlPoints.ToArray()
+        else
             seq {
-                yield! interpolatedPoints
+                yield! interPoints
                 yield! endCap
             } |> Seq.toArray
+            
+    member this.Spacing() =
+        let length = segLengths |> Seq.sum |> (+) endLength
+        seq {
+            yield 0f
+            yield!
+                segLengths
+                |> Seq.map(fun x -> x/length)
+                |> Seq.scan (+) 0f
+            yield 1f                
+        }
+        
     member this.Clear() =
-        curveState <- Empty
-        interpolatedPoints.Clear()
+        controlPoints.Clear()
+        interPoints.Clear()
+        
