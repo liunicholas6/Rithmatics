@@ -7,7 +7,7 @@
 
     <ItemGroup>
         <Compile Include="CatmullRom.fs" />
-        <Compile Include="Fit.fs" />
+        <Compile Include="Fitting.fs" />
     </ItemGroup>
 
     <ItemGroup>
