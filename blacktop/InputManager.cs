@@ -42,6 +42,7 @@ public class InputManager : Node2D
                 point = _mouseManger.MousePosition;
                 _curve.AddPoint(point);
                 _curve.AddPoint(point);
+                _curve.Trim();
                 _line.Points = _curve.GetPoints();
                 break;
         }

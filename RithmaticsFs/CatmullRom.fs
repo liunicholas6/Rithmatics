@@ -40,7 +40,7 @@ let splinePts (res: float32) (ctrl: Vector2 array) =
 type splineCurve() =
     let res = 10f
     let controlPoints = ResizeArray<Vector2>()
-    let interPoints = ResizeArray<Vector2>()
+    let mutable interPoints = ResizeArray<Vector2>()
     let segLengths = ResizeArray<float32>()
     let mutable endLength = 0f
     let mutable endCap = Seq.empty
@@ -78,6 +78,17 @@ type splineCurve() =
                 |> Seq.scan (+) 0f
             yield 1f                
         }
+        
+    member this.Trim() =
+        interPoints <- seq {
+            let mutable curr = interPoints[0]
+            yield curr
+            for point in interPoints do
+                if (curr - point).Length() >= res then
+                    yield point
+                    curr <- point
+        }
+        |> ResizeArray
         
     member this.Clear() =
         controlPoints.Clear()
